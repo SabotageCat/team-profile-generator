@@ -163,6 +163,16 @@ const internQuestions = [
     }
 ];
 
+const menu = [
+    {
+        type: 'list',
+        name: 'menuChoice',
+        message: 'Select an Option',
+        choices: ['Create an Engineer Profile', 'Create an Intern Profile', 'Finish and Generate Html Page']
+    }
+];
+
+// called by promptUser() to gather htmlData for generateHTML
 const addEmployee = employeeRoster => {
     // If there's no empoyees array then create one.
     if(!employeeRoster.employees) {
@@ -170,30 +180,49 @@ const addEmployee = employeeRoster => {
     }
 
     // Start command line menu for user to 1) enter an engineer. 2) enter an intern. 3) Finish employee roster and generate html output
-    inquirer.prompt([
-        {
-            type: 'list',
-            name: 'menuChoice',
-            message: 'Select an Option',
-            choices: ['Create an Engineer Profile', 'Create an Intern Profile', 'Finish and Generate Html Page']
-        }
-    ]).then(choice => {
-        console.log(choice);
+    teamMenu()
+    .then(choice => {
+    console.log(choice);
+    if (choice.menuChoice === 'Create an Engineer Profile') {
+        // create an engineer profile to add to employeeRoster.employees
+        console.log(choice.menuChoice);
+        employeeRoster.employees.push(inquirer.prompt(engineerQuestions));
+        return teamMenu()
+    } else if (choice.menuChoice === 'Create an Intern Profile') {
+    // create an intern profile to add to employeeRoster.employees
+        console.log(choice.menuChoice);
+        employeeRoster.employees.push(inquirer.prompt(internQuestions));
+        return teamMenu()
+    } else if (choice.menuChoice === 'Finish and Generate Html Page') {
+        // return employeeRoster.employees to promptUser function for htmlData for generateHTML
+        console.log(choice.menuChoice);
+        return employeeRoster.employees
+    }
     })
+    .catch(err => {
+        console.log(err);
+    });
 
 
 };
 
+// take user to menu to add employees to roster
+function teamMenu() {
+    return inquirer.prompt(menu)
+};
+
+// prompt user for questions for manager profile
 function promptUser() {
     return inquirer.prompt(managerQuestions)
 };
 
+// call app into function
 promptUser()
 .then(data => {
     console.log(data);
     const manager = new Manager(data);
     let employeeRoster = [manager];
-    addEmployee(employeeRoster);
+    return addEmployee(employeeRoster);
 })
 .then(htmlData => {
     console.log(htmlData);
