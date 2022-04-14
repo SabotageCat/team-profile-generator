@@ -6,28 +6,195 @@ const fs = require('fs');
 const generateHTML = require('./src/generateHTML');
 // Include writeFile util to write htmlPage to /dist
 const writeFile = require('./utils/writeFile');
+// Include Manager class to create new manager object for htmlPage generation
+const Manager = require('./lib/Manager');
 
 // array of questions for inquirer to ask user
-const questions = [
+const managerQuestions = [
     {
         type: 'input',
-        name: 'employee',
-        message: 'Enter an employee name!',
+        name: 'name',
+        message: 'What is your name?',
         validate: (questionAnswer) => {
             if (questionAnswer) {
                 return true
             }
-            console.log('You must enter the name of your employee!');
+            console.log('You must enter your name!');
+            return false
+        }
+    },
+    {
+        type: 'number',
+        name: 'id',
+        message: 'What is your employee ID number?',
+        validate: (questionAnswer) => {
+            if (questionAnswer) {
+                return true
+            }
+            console.log('You must enter your employee ID number!');
+            return false
+        }
+    },
+    {
+        type: 'input',
+        name: 'email',
+        message: 'What is your email address?',
+        validate: (questionAnswer) => {
+            if (questionAnswer) {
+                return true
+            }
+            console.log('You must enter your email address!');
+            return false
+        }
+    },
+    {
+        type: 'number',
+        name: 'office',
+        message: 'What is your office number?',
+        validate: (questionAnswer) => {
+            if (questionAnswer) {
+                return true
+            }
+            console.log('You must enter your office number!');
+            return false
+        }
+    },
+];
+
+const engineerQuestions = [
+    {
+        type: 'input',
+        name: 'name',
+        message: "What is your engineer's name?",
+        validate: (questionAnswer) => {
+            if (questionAnswer) {
+                return true
+            }
+            console.log('You must enter their name!');
+            return false
+        }
+    },
+    {
+        type: 'number',
+        name: 'id',
+        message: "What is your engineer's employee ID number?",
+        validate: (questionAnswer) => {
+            if (questionAnswer) {
+                return true
+            }
+            console.log('You must enter their employee ID number!');
+            return false
+        }
+    },
+    {
+        type: 'input',
+        name: 'email',
+        message: "What is your engineer's email address?",
+        validate: (questionAnswer) => {
+            if (questionAnswer) {
+                return true
+            }
+            console.log('You must enter their email address!');
+            return false
+        }
+    },
+    {
+        type: 'input',
+        name: 'github',
+        message: "What is your engineer's GitHub username?",
+        validate: (questionAnswer) => {
+            if (questionAnswer) {
+                return true
+            }
+            console.log('You must enter their GitHub username!');
             return false
         }
     }
 ];
 
-function init() {
-    return inquirer.prompt(questions)
-}
+const internQuestions = [
+    {
+        type: 'input',
+        name: 'name',
+        message: "What is your intern's name?",
+        validate: (questionAnswer) => {
+            if (questionAnswer) {
+                return true
+            }
+            console.log('You must enter their name!');
+            return false
+        }
+    },
+    {
+        type: 'number',
+        name: 'id',
+        message: "What is your intern's employee ID number?",
+        validate: (questionAnswer) => {
+            if (questionAnswer) {
+                return true
+            }
+            console.log('You must enter their employee ID number!');
+            return false
+        }
+    },
+    {
+        type: 'input',
+        name: 'email',
+        message: "What is your intern's email address?",
+        validate: (questionAnswer) => {
+            if (questionAnswer) {
+                return true
+            }
+            console.log('You must enter their email address!');
+            return false
+        }
+    },
+    {
+        type: 'input',
+        name: 'github',
+        message: "What is your intern's school?",
+        validate: (questionAnswer) => {
+            if (questionAnswer) {
+                return true
+            }
+            console.log('You must enter their school!');
+            return false
+        }
+    }
+];
 
-init()
+const addEmployee = employeeRoster => {
+    // If there's no empoyees array then create one.
+    if(!employeeRoster.employees) {
+        employeeRoster.employees = [];
+    }
+
+    // Start command line menu for user to 1) enter an engineer. 2) enter an intern. 3) Finish employee roster and generate html output
+    inquirer.prompt([
+        {
+            type: 'list',
+            name: 'menuChoice',
+            message: 'Select an Option',
+            choices: ['Create an Engineer Profile', 'Create an Intern Profile', 'Finish and Generate Html Page']
+        }
+    ]).then(choice => {
+        console.log(choice);
+    })
+
+
+};
+
+function promptUser() {
+    return inquirer.prompt(managerQuestions)
+};
+
+promptUser()
+.then(data => {
+    console.log(data);
+    const manager = new Manager(data);
+    let employeeRoster = [manager];
+    addEmployee(employeeRoster);
+})
 .then(htmlData => {
     console.log(htmlData);
     return generateHTML(htmlData)

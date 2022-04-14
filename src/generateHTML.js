@@ -1,7 +1,7 @@
 function addEmployee(employee) {
     return `
-    <section class='employee-card' id='${employee.employee}'>
-        <h2>${employee.employee}</h2>
+    <section class='employee-card' id='${employee.name}'>
+        <h2>${employee.name}</h2>
     </section>
     `;
 };
