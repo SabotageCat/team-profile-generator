@@ -1,7 +1,4 @@
-const fs = require('fs');
 const Employee = require('../lib/Employee');
-
-jest.mock('fs');
 
 describe('employee class', () => {
     it('cweate an employee object', () => {
@@ -10,8 +7,6 @@ describe('employee class', () => {
         expect(employee.name).toBe('Robert');
         expect(employee.id).toBe(1);
         expect(employee.email).toBe('me@robert.com');
-        expect(employee.role).toBe('Employee');
-
     });
 
     it('getName() from empoyee object', () => {
