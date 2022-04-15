@@ -200,6 +200,7 @@ const addEmployee = employeeRoster => {
     }
     })
     .catch(err => {
+        // console log errors from inquirer.prompt(menu)
         console.log(err);
     });
 
