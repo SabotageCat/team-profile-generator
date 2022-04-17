@@ -6,6 +6,8 @@
   This project is a demonstration of classes and tests using jest. The concept is that a manager is able to input their employees information and generate a webpage with profiles of their employees.
   
   ![screenshot](https://user-images.githubusercontent.com/95665563/163727599-a1c712c9-246f-4915-b1e2-c28235a125b0.png)
+  
+  https://user-images.githubusercontent.com/95665563/163727935-ffe54a14-d87c-4557-9db2-12485d161c4a.mp4
 
 
   ## Table of Contents
