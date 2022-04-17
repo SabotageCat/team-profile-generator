@@ -1,13 +1,16 @@
 // Include inquirer to ask for user input on their team
 const inquirer = require('inquirer');
-// Include fs to write html file of user inpu
-const fs = require('fs');
 // Include generateHTML util to create htmlPage from user input
 const generateHTML = require('./src/generateHTML');
 // Include writeFile util to write htmlPage to /dist
 const writeFile = require('./utils/writeFile');
-// Include Manager class to create new manager object for htmlPage generation
+// Include employee classes to create new objects for htmlPage generation
 const Manager = require('./lib/Manager');
+const Engineer = require('./lib/Engineer');
+const Intern = require('./lib/Intern');
+
+// employee roster
+let employeeRoster = [];
 
 // array of questions for inquirer to ask user
 const managerQuestions = [
@@ -49,7 +52,7 @@ const managerQuestions = [
     },
     {
         type: 'number',
-        name: 'office',
+        name: 'officeNumber',
         message: 'What is your office number?',
         validate: (questionAnswer) => {
             if (questionAnswer) {
@@ -151,7 +154,7 @@ const internQuestions = [
     },
     {
         type: 'input',
-        name: 'github',
+        name: 'school',
         message: "What is your intern's school?",
         validate: (questionAnswer) => {
             if (questionAnswer) {
@@ -163,76 +166,72 @@ const internQuestions = [
     }
 ];
 
-const menu = [
+const menuChoices = [
     {
         type: 'list',
-        name: 'menuChoice',
+        name: 'choice',
         message: 'Select an Option',
         choices: ['Create an Engineer Profile', 'Create an Intern Profile', 'Finish and Generate Html Page']
     }
 ];
 
-// called by promptUser() to gather htmlData for generateHTML
-const addEmployee = employeeRoster => {
-    // If there's no empoyees array then create one.
-    if(!employeeRoster.employees) {
-        employeeRoster.employees = [];
-    }
-
-    // Start command line menu for user to 1) enter an engineer. 2) enter an intern. 3) Finish employee roster and generate html output
-    teamMenu()
-    .then(choice => {
-    console.log(choice);
-    if (choice.menuChoice === 'Create an Engineer Profile') {
-        // create an engineer profile to add to employeeRoster.employees
-        console.log(choice.menuChoice);
-        employeeRoster.employees.push(inquirer.prompt(engineerQuestions));
-        return teamMenu()
-    } else if (choice.menuChoice === 'Create an Intern Profile') {
-    // create an intern profile to add to employeeRoster.employees
-        console.log(choice.menuChoice);
-        employeeRoster.employees.push(inquirer.prompt(internQuestions));
-        return teamMenu()
-    } else if (choice.menuChoice === 'Finish and Generate Html Page') {
-        // return employeeRoster.employees to promptUser function for htmlData for generateHTML
-        console.log(choice.menuChoice);
-        return employeeRoster.employees
-    }
-    })
-    .catch(err => {
-        // console log errors from inquirer.prompt(menu)
-        console.log(err);
-    });
-
-
-};
-
-// take user to menu to add employees to roster
-function teamMenu() {
-    return inquirer.prompt(menu)
-};
-
-// prompt user for questions for manager profile
-function promptUser() {
+const promptUser = () => {
     return inquirer.prompt(managerQuestions)
+    .then(managerData => {
+        const { name, id, email, officeNumber } = managerData;
+        const manager = new Manager (name, id, email, officeNumber);
+
+        employeeRoster.push(manager);
+    })
 };
 
-// call app into function
+const menu = () => {
+    return inquirer.prompt(menuChoices)
+    .then(choice => {
+        if(choice.choice === 'Create an Engineer Profile') {
+            console.log('Chosen to create Engineer profile');
+            return engineer()
+        } else if(choice.choice === 'Create an Intern Profile') {
+            console.log('Chosen to create Intern Profile');
+            return intern()
+        } else {
+            return employeeRoster
+        }
+    })
+};
+
+const engineer = () => {
+    return inquirer.prompt(engineerQuestions)
+    .then(engineerData => {
+        let { name, id, email, github } = engineerData;
+        let engineer = new Engineer (name, id, email, github);
+        employeeRoster.push(engineer);
+        
+        return menu(employeeRoster);
+    })
+};
+
+const intern = () => {
+    return inquirer.prompt(internQuestions)
+    .then(internData => {
+        let { name, id, email, school } = internData;
+        let intern = new Intern (name, id, email, school);
+        employeeRoster.push(intern);
+        
+        return menu(employeeRoster);
+    })
+};
+
+
 promptUser()
-.then(data => {
-    console.log(data);
-    const manager = new Manager(data);
-    let employeeRoster = [manager];
-    return addEmployee(employeeRoster);
-})
-.then(htmlData => {
-    console.log(htmlData);
-    return generateHTML(htmlData)
+.then(menu)
+.then(employeeRoster => {
+    return generateHTML(employeeRoster)
 })
 .then(htmlPage => {
-    console.log(htmlPage);
+    console.log('Your HTML page has been written! Check out /dist!');
     return writeFile(htmlPage)
 })
 .catch(err => {
     console.log(err);
-});
+})

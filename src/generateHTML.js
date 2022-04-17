@@ -1,10 +1,62 @@
-function addEmployee(employee) {
+function addEmployeeToHtml(employeeData) {
+    let employeeCards = [];
+
+    for (i = 0; i < employeeData.length; i++) {
+        const employee = employeeData[i];
+        const role = employee.getRole();
+
+        if (role === 'Manager') {
+            const managerCard = manager(employee);
+
+            employeeCards.push(managerCard);
+        }
+        if (role === 'Engineer') {
+            const engineerCard = engineer(employee);
+
+            employeeCards.push(engineerCard);
+        }
+        if (role === 'Intern') {
+            const internCard = intern(employee);
+
+            employeeCards.push(internCard);
+        }
+    };
+
+    return employeeCards.join('')
+};
+
+manager = (manager) => {
     return `
-    <section class='employee-card' id='${employee.name}'>
-        <h2>${employee.name}</h2>
+    <section class='employee-card' id='manager'>
+        <h2>${manager.name}</h2>
+        <h3>ID: ${manager.id}</h3>
+        <h3><a href='mailto:${manager.email}'>${manager.email}</a></h3>
+        <h3>Office #: ${manager.officeNumber}</h3>
     </section>
     `;
-};
+}
+
+engineer = (engineer) => {
+    return `
+    <section class='employee-card' id='engineer'>
+        <h2>${engineer.name}</h2>
+        <h3>ID: ${engineer.id}</h3>
+        <h3><a href='mailto:${engineer.email}'>${engineer.email}</a></h3>
+        <h3>Github: ${engineer.github}</h3>
+    </section>
+    `;
+}
+
+intern = (intern) => {
+    return `
+    <section class='employee-card' id='intern'>
+        <h2>${intern.name}</h2>
+        <h3>ID: ${intern.id}</h3>
+        <h3><a href='mailto:${intern.email}'>${intern.email}</a></h3>
+        <h3>Alumni: ${intern.school}</h3>
+    </section>
+    `;
+}
 
 function generateHTML(data) {
     return `
@@ -23,7 +75,7 @@ function generateHTML(data) {
 
         <main>
             <section class="employee-group" id="employee-group">
-                ${addEmployee(data)}
+                ${addEmployeeToHtml(data)}
             </section>
         </main>
 
