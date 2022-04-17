@@ -27,33 +27,36 @@ function addEmployeeToHtml(employeeData) {
 
 manager = (manager) => {
     return `
-    <section class='employee-card' id='manager'>
+    <section class='employee-card manager'>
         <h2>${manager.name}</h2>
-        <h3>ID: ${manager.id}</h3>
-        <h3><a href='mailto:${manager.email}'>${manager.email}</a></h3>
-        <h3>Office #: ${manager.officeNumber}</h3>
+        <h3>Manager</h3>
+        <h4>ID: ${manager.id}</h4>
+        <h4><a href='mailto:${manager.email}'>${manager.email}</a></h4>
+        <h4>Office #: ${manager.officeNumber}</h4>
     </section>
     `;
 }
 
 engineer = (engineer) => {
     return `
-    <section class='employee-card' id='engineer'>
+    <section class='employee-card engineer''>
         <h2>${engineer.name}</h2>
-        <h3>ID: ${engineer.id}</h3>
-        <h3><a href='mailto:${engineer.email}'>${engineer.email}</a></h3>
-        <h3><a href='https://github.com/${engineer.github}' target='_blank'>Github: ${engineer.github}</a></h3>
+        <h3>Engineer</h3>
+        <h4>ID: ${engineer.id}</h4>
+        <h4><a href='mailto:${engineer.email}'>${engineer.email}</a></h4>
+        <h4><a href='https://github.com/${engineer.github}' target='_blank'>Github: ${engineer.github}</a></h4>
     </section>
     `;
 }
 
 intern = (intern) => {
     return `
-    <section class='employee-card' id='intern'>
+    <section class='employee-card intern'>
         <h2>${intern.name}</h2>
-        <h3>ID: ${intern.id}</h3>
-        <h3><a href='mailto:${intern.email}'>${intern.email}</a></h3>
-        <h3>Alumni: ${intern.school}</h3>
+        <h3>Intern</h3>
+        <h4>ID: ${intern.id}</h4>
+        <h4><a href='mailto:${intern.email}'>${intern.email}</a></h4>
+        <h4>Alumni: ${intern.school}</h4>
     </section>
     `;
 }
@@ -66,7 +69,8 @@ function generateHTML(data) {
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title></title>
+        <title>My Team</title>
+        <link rel='stylesheet' href='./style.css' />
     </head>
     <body>
         <header>
@@ -78,10 +82,6 @@ function generateHTML(data) {
                 ${addEmployeeToHtml(data)}
             </section>
         </main>
-
-        <footer>
-            <script src=""></script>
-        </footer>
     </body>
     </html>
     `;

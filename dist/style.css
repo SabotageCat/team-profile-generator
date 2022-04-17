@@ -1,0 +1,59 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-align: center;
+    padding: 1.5rem;
+    background-image: linear-gradient(yellow, aqua);
+}
+body {
+    background-color: cornsilk;
+}
+/* Main Styles */
+.employee-group {
+    display: flex;
+    flex-wrap: wrap;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin: 1rem;
+    padding: 0.5rem;
+    justify-content: space-evenly;
+
+}
+.employee-card {
+    max-width: 200px;
+    height: auto;
+    background-color: khaki;
+    border: 2px solid black;
+    border-radius: 0 0 10px 10px;
+    margin: 10px;
+    padding-bottom: 0.25rem;
+    flex: 1 0 20%;
+}
+.employee-card:hover {
+    box-shadow: 10px 10px;
+}
+.employee-card h2 {
+    background-color: aquamarine;
+    text-align: center;
+    border-bottom: 2px dotted black;
+}
+
+.employee-card h3 {
+    padding: 0.25rem;
+    text-align: center;
+}
+.employee-card h4 {
+    padding: 0.25rem;
+}
+.manager h3 {
+    color: blue;
+}
+.engineer h3 {
+    color: red;
+}
+.intern h3 {
+    color: green
+}
