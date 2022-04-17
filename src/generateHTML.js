@@ -42,7 +42,7 @@ engineer = (engineer) => {
         <h2>${engineer.name}</h2>
         <h3>ID: ${engineer.id}</h3>
         <h3><a href='mailto:${engineer.email}'>${engineer.email}</a></h3>
-        <h3><a href='https://github.com/${engineer.github}'>Github: ${engineer.github}</a></h3>
+        <h3><a href='https://github.com/${engineer.github}' target='_blank'>Github: ${engineer.github}</a></h3>
     </section>
     `;
 }
